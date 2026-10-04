@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: personcrud
+spec:
+ type: LoadBalancer
+ selector:
+   app: personcrud
+ ports:
+   - protocol: TCP
+     port: 8080
+     targetPort: 8080
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personcrud
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: personcrud
+  template:
+    metadata:
+      labels:
+        app: personcrud
+    spec:
+      containers:
+        - name: personcrud
+          image: barkurguru/personcrud
+          ports:
+            - containerPort: 8080
